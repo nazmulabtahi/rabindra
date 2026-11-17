@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MyDay — Study Diary</title>
+<style>
+:root{--ink:#edf3ff;--muted:#9aaac2;--line:#2b3a52;--panel:rgba(17,29,48,.88);--panel2:#1b2b43;--blue:#9fc3ff;--green:#73dfb0;--shadow:0 18px 55px #0005}
+*{box-sizing:border-box}body{margin:0;background:#091321;color:var(--ink);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}button,input,textarea,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 15px;background:var(--blue);color:#101c2d;font-weight:750}button:hover{filter:brightness(1.07)}button.secondary{background:#263852;color:var(--ink)}button.ghost{background:#ffffff14;color:var(--ink);border:1px solid #ffffff25}button.danger{background:#4a2934;color:#ffdce3}.hidden{display:none!important}
+.shell{max-width:1400px;margin:auto;padding:22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:20px}.brand{font-weight:850;font-size:23px;letter-spacing:-.7px}.brand span{color:var(--blue)}.sub{font-size:12px;color:var(--muted)}.top-actions{display:flex;align-items:center;gap:9px}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#9fc3ff,#73dfb0);color:#102039;font-weight:900}
+.hero{min-height:210px;border:1px solid #ffffff20;border-radius:24px;padding:28px;display:flex;align-items:end;justify-content:space-between;gap:20px;background:linear-gradient(90deg,#07111ee8,#07111e55),var(--hero-image,linear-gradient(130deg,#25456c,#152b44));background-position:center;background-size:cover;box-shadow:var(--shadow);margin-bottom:18px}.hero h1{font-size:clamp(27px,4vw,42px);line-height:1.1;margin:7px 0}.hero p{max-width:550px;color:#e2eaf7;margin:8px 0 0}.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:10px;font-weight:800;color:#c5d9ff}.hero .date{color:#d5e1f3;font-size:13px}.hero-actions{display:flex;gap:8px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:19px;box-shadow:var(--shadow);backdrop-filter:blur(16px)}.stat{padding:16px}.stat .label{color:var(--muted);font-size:12px}.stat strong{display:block;font-size:26px;margin-top:3px;letter-spacing:-.6px}.stat .hint{font-size:11px;color:var(--green)}
+.layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(310px,.85fr);gap:17px}.panel{padding:20px}.panel h2{font-size:17px;margin:0}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}.muted{color:var(--muted)}.tiny{font-size:11px}.field{width:100%;border:1px solid #34465f;background:#0c192a;color:var(--ink);border-radius:11px;padding:11px 12px;outline:none}.field:focus{border-color:var(--blue)}textarea.field{resize:vertical;min-height:90px}.formrow{display:flex;gap:8px;margin-top:10px}.formrow>*{min-width:0}.formrow input{flex:1}.task{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #ffffff12}.task:last-child{border:0}.task label{flex:1}.task.done label{text-decoration:line-through;color:var(--muted)}input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}.timerbox{border-radius:17px;padding:18px;background:linear-gradient(#081321b8,#081321d9),var(--timer-image,linear-gradient(130deg,#234366,#182d49));background-position:center;background-size:cover;text-align:center;border:1px solid #ffffff20}.timerbox .clock{font-size:clamp(48px,7vw,68px);font-weight:850;letter-spacing:1px;font-variant-numeric:tabular-nums;line-height:1.3}.timer-controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}.timer-controls button{padding:9px 14px}.progress{height:8px;background:#2a3b54;border-radius:20px;overflow:hidden;margin:13px 0 7px}.progress div{height:100%;background:linear-gradient(90deg,#73dfb0,#9fc3ff);width:0%;transition:width .2s}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:9px 5px;border-bottom:1px solid #ffffff12;font-size:12px}.table th{color:var(--muted)}.scene-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.scene{position:relative;border:2px solid transparent;border-radius:12px;overflow:hidden;padding:0;aspect-ratio:1.5;background:#263852;color:white;text-align:left}.scene img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s}.scene:hover img{transform:scale(1.06)}.scene span{position:absolute;inset:auto 0 0;padding:17px 7px 6px;background:linear-gradient(transparent,#07111de8);font-size:10px;font-weight:750}.scene.active{border-color:var(--green)}.scene.active:after{content:"✓";position:absolute;right:6px;top:5px;background:var(--green);color:#0b1b24;border-radius:50%;width:20px;height:20px;display:grid;place-items:center;font-size:12px}.diary-meta{display:grid;grid-template-columns:1fr 1fr;gap:9px}.pill{display:inline-flex;align-items:center;border-radius:30px;padding:5px 10px;background:#243b57;color:#d4e4ff;font-size:11px}.section{margin-top:17px}.diary-entry{padding:12px 0;border-bottom:1px solid #ffffff12}.diary-entry:last-child{border:0}.diary-entry strong{font-size:13px}.notice{background:#1a304a;border:1px solid #365474;color:#d9e8ff;padding:11px 13px;border-radius:12px;font-size:12px;margin:12px 0}.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(120deg,#081321e8,#0b1c30bb),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1800&q=85') center/cover fixed}.login-card{width:min(440px,100%);padding:30px;background:#101d30ed;border:1px solid #ffffff24;border-radius:25px;box-shadow:var(--shadow);backdrop-filter:blur(20px)}.login-card h1{font-size:29px;margin:22px 0 4px}.login-mark{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#9fc3ff,#73dfb0);color:#102039;display:grid;place-items:center;font-size:23px;font-weight:900}.login-card .field{margin-top:10px}.login-card button{width:100%;margin-top:13px}.footer{text-align:center;color:#788ba7;font-size:11px;padding:22px}.admin-tools{display:flex;gap:8px;flex-wrap:wrap}.file-label{display:inline-flex;align-items:center;gap:7px;padding:10px 13px;border-radius:11px;background:#263852;color:#edf3ff;font-size:12px;font-weight:700;cursor:pointer}.file-label input{display:none}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.scene-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.shell{padding:12px}.topbar{align-items:flex-start}.top-actions .sub{display:none}.hero{padding:20px;min-height:235px;display:block}.hero-actions{margin-top:18px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:22px}.panel{padding:15px}.scene-grid{grid-template-columns:repeat(2,1fr)}.formrow{flex-wrap:wrap}.diary-meta{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="loginView" class="login-wrap">
+ <div class="login-card">
+  <div class="login-mark">M</div><div class="brand" style="margin-top:12px">My<span>Day</span> <span class="pill">STUDY DIARY</span></div>
+  <h1 id="loginTitle">Your space. Your progress.</h1><div class="muted" id="loginHint">Sign in to your personal study dashboard.</div>
+  <div id="setupNote" class="notice hidden">First visit? Create your personal demo password. It is saved in this browser only.</div>
+  <input id="password" class="field" type="password" placeholder="Admin password" autocomplete="current-password">
+  <input id="confirmPassword" class="field hidden" type="password" placeholder="Confirm password">
+  <button id="loginBtn" onclick="login()">Continue to MyDay <span>→</span></button>
+  <div id="loginError" style="color:#ff9aa6;font-size:12px;margin-top:9px"></div>
+  <p class="tiny muted" style="margin-top:18px">Personal demo · Browser-only login · Not for sensitive information</p>
+ </div>
+</div>
+<div id="appView" class="shell hidden">
+ <header class="topbar">
+  <div><div class="brand">My<span>Day</span> <span class="pill">PERSONAL STUDY DIARY</span></div><div class="sub">Build consistency, one day at a time.</div></div>
+  <div class="top-actions"><div style="text-align:right"><div style="font-weight:700;font-size:13px">Administrator</div><div class="sub">Private workspace</div></div><div class="avatar">A</div><button class="ghost" onclick="logout()">Log out</button></div>
+ </header>
+ <section class="hero" id="hero">
+  <div><div class="eyebrow">A little progress every day</div><div class="date" id="today"></div><h1>Make today<br>count.</h1><p>Plan with intention. Study with focus. Keep a record of the person you are becoming.</p></div>
+  <div class="hero-actions"><button onclick="document.getElementById('diaryPanel').scrollIntoView({behavior:'smooth'})">Write today's diary</button><button class="ghost" onclick="document.getElementById('appearancePanel').scrollIntoView({behavior:'smooth'})">Change scenery</button></div>
+ </section>
+ <section class="stats">
+  <div class="stat"><div class="label">STUDY TIME TODAY</div><strong id="todayStudy">0m</strong><div class="hint">Keep your momentum</div></div>
+  <div class="stat"><div class="label">ROUTINE COMPLETED</div><strong id="taskCount">0/0</strong><div class="hint">Small wins matter</div></div>
+  <div class="stat"><div class="label">FOCUS SESSIONS</div><strong id="sessionCount">0</strong><div class="hint">One session at a time</div></div>
+  <div class="stat"><div class="label">DAILY TARGET</div><strong id="goalPercent">0%</strong><div class="hint" id="goalLabel">180 minutes goal</div></div>
+ </section>
+ <div class="layout">
+  <main>
+   <section class="panel">
+    <div class="panel-head"><div><h2>Today's routine</h2><div class="sub">Your daily checklist</div></div><span class="pill" id="routineDate"></span></div>
+    <div id="tasks"></div>
+    <div class="formrow"><input id="newTask" class="field" placeholder="Add a routine task…"><button onclick="addTask()">Add task</button></div>
+   </section>
+   <section class="panel section">
+    <div class="panel-head"><div><h2>Study log</h2><div class="sub">Track the time you invest in each subject</div></div><span class="pill">Today</span></div>
+    <div class="formrow"><input id="subject" class="field" placeholder="Subject / topic"><input id="minutes" class="field" type="number" min="1" max="600" placeholder="Minutes" style="max-width:115px"><button onclick="addStudy()">Save</button></div>
+    <div class="progress"><div id="goalBar"></div></div><div class="sub" id="progressText">0 of 180 minutes</div>
+    <div style="overflow-x:auto;margin-top:12px"><table class="table"><thead><tr><th>TIME</th><th>SUBJECT</th><th>DURATION</th></tr></thead><tbody id="studyRows"></tbody></table></div><p id="emptyLog" class="sub">Your study sessions will appear here.</p>
+   </section>
+   <section class="panel section" id="diaryPanel">
+    <div class="panel-head"><div><h2>My daily diary</h2><div class="sub">Capture thoughts, lessons and personal reflections</div></div><span class="pill">Journal</span></div>
+    <div class="diary-meta">
+     <div><label class="tiny muted">DATE</label><input id="diaryDate" type="date" class="field"></div>
+     <div><label class="tiny muted">HOW WAS YOUR DAY?</label><select id="diaryMood" class="field"><option>😊 Productive</option><option>🙂 Good</option><option>😐 Average</option><option>😴 Tired</option><option>🌱 Improving</option></select></div>
+    </div>
+    <div style="margin-top:10px"><label class="tiny muted">TODAY'S HIGHLIGHT</label><input id="diaryHighlight" class="field" placeholder="What went well today?"></div>
+    <div style="margin-top:10px"><label class="tiny muted">MY NOTES & REFLECTION</label><textarea id="diaryNotes" class="field" placeholder="Write about your study, ideas, challenges or something you are grateful for…"></textarea></div>
+    <div class="formrow"><button onclick="saveDiary()">Save diary entry</button><button class="secondary" onclick="clearDiaryForm()">Clear</button></div>
+    <div class="section"><div class="panel-head"><h2>Previous entries</h2><span class="sub" id="diaryCount">0 entries</span></div><div id="diaryEntries"><p class="sub">Your diary entries will be listed here.</p></div></div>
+   </section>
+  </main>
+  <aside>
+   <section class="panel">
+    <div class="panel-head"><div><h2>Focus timer</h2><div class="sub">Choose a session and get in the zone</div></div><span class="pill">Pomodoro</span></div>
+    <div class="timerbox" id="timerbox"><select id="timerMode" class="field" style="max-width:210px" onchange="changeMode()"><option value="25">Focus · 25 minutes</option><option value="45">Deep study · 45 minutes</option><option value="30">Study · 30 minutes</option><option value="5">Short break · 5 minutes</option><option value="15">Long break · 15 minutes</option></select>
+     <div class="clock" id="clock">25:00</div><div class="sub" id="timerStatus">Ready when you are</div>
+     <div class="timer-controls"><button onclick="startTimer()">Start</button><button class="secondary" onclick="pauseTimer()">Pause</button><button class="secondary" onclick="resetTimer()">Reset</button></div>
+    </div>
+    <div class="sub" style="margin-top:10px">When a focus timer ends, the session is added to your study log.</div>
+   </section>
+   <section class="panel section" id="appearancePanel">
+    <div class="panel-head"><div><h2>Your scenery</h2><div class="sub">Choose a wallpaper for your dashboard and timer</div></div><span class="pill">10 scenes</span></div>
+    <div class="scene-grid" id="sceneGrid"></div>
+    <div class="formrow" style="align-items:center;flex-wrap:wrap"><label class="file-label">＋ Upload your photo <input id="wallpaperUpload" type="file" accept="image/*" onchange="uploadWallpaper(event)"></label><button class="secondary" onclick="resetWallpaper()">Reset</button></div>
+    <p class="tiny muted">Tip: choose a landscape, desk setup, library or nature photo. Image uploads are saved in this browser; use a JPG/PNG under 3 MB.</p>
+   </section>
+   <section class="panel section">
+    <div class="panel-head"><div><h2>Personal settings</h2><div class="sub">Make your target realistic and consistent</div></div></div>
+    <label class="tiny muted">DAILY STUDY TARGET (MINUTES)</label><div class="formrow"><input id="goalInput" class="field" type="number" min="15" max="1000" value="180"><button onclick="saveGoal()">Save</button></div>
+    <div class="formrow"><button class="secondary" style="flex:1" onclick="changePassword()">Change admin password</button></div>
+    <div class="formrow"><button class="danger" style="flex:1" onclick="clearToday()">Clear today's study log</button></div>
+    <div class="notice">Your routine, study log, diary and wallpaper are stored locally in this browser. Export/backup and cloud sync can be added in a future version.</div>
+   </section>
+  </aside>
+ </div>
+ <div class="footer">MyDay Study Diary · A personal space for focus, reflection and growth</div>
+</div>
+<script>
+const $=id=>document.getElementById(id), KEY='myday_study_diary_v2';
+const scenes=[
+{name:'Mountain calm',url:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=85'},
+{name:'Ocean escape',url:'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=1000&q=85'},
+{name:'Forest morning',url:'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1000&q=85'},
+{name:'Quiet library',url:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&q=85'},
+{name:'Study desk',url:'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1000&q=85'},
+{name:'Golden sunset',url:'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1000&q=85'},
+{name:'Misty lake',url:'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1000&q=85'},
+{name:'Green hills',url:'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1000&q=85'},
+{name:'Night sky',url:'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1000&q=85'},
+{name:'Minimal workspace',url:'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1000&q=85'}
+];
+let data=JSON.parse(localStorage.getItem(KEY)||'{}');
+if(!data.tasks)data.tasks=['Wake up and get ready','Morning revision','Attend classes','Focused study session','Exercise / personal time','Review today’s lessons','Plan tomorrow'];
+if(!data.logs)data.logs={};if(!data.diary)data.diary={};if(!data.goal)data.goal=180;if(data.scene===undefined)data.scene=0;
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function dateKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function todayLog(){let k=dateKey();if(!data.logs[k])data.logs[k]=[];return data.logs[k]}
+function initLogin(){let exists=!!localStorage.getItem('myday_v2_password');$('loginTitle').textContent=exists?'Welcome back.':'Your space. Your progress.';$('loginHint').textContent=exists?'Sign in to your personal study dashboard.':'Create your personal admin password to begin.';$('setupNote').classList.toggle('hidden',exists);$('confirmPassword').classList.toggle('hidden',exists);$('loginBtn').textContent=exists?'Log in to MyDay →':'Create admin access →'}
+function login(){let p=$('password').value,exists=!!localStorage.getItem('myday_v2_password');if(!p){$('loginError').textContent='Please enter a password.';return}if(!exists){if(p.length<4){$('loginError').textContent='Use at least 4 characters.';return}if(p!==$('confirmPassword').value){$('loginError').textContent='Passwords do not match.';return}localStorage.setItem('myday_v2_password',p)}else if(p!==localStorage.getItem('myday_v2_password')){$('loginError').textContent='Incorrect password.';return}$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('password').value='';render();applyWallpaper();renderScenes()}
+function logout(){$('appView').classList.add('hidden');$('loginView').classList.remove('hidden');$('password').value='';initLogin()}
+function fmt(m){let h=Math.floor(m/60),r=m%60;return h?`${h}h ${r}m`:`${r}m`}
+function render(){let d=new Date();$('today').textContent=d.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});$('routineDate').textContent=d.toLocaleDateString(undefined,{month:'short',day:'numeric'});let done=JSON.parse(localStorage.getItem('myday_done_'+dateKey())||'[]');$('tasks').innerHTML='';data.tasks.forEach((t,i)=>{let div=document.createElement('div');div.className='task'+(done.includes(i)?' done':'');let cb=document.createElement('input');cb.type='checkbox';cb.checked=done.includes(i);cb.onchange=()=>{let a=JSON.parse(localStorage.getItem('myday_done_'+dateKey())||'[]');a=cb.checked?[...a,i]:a.filter(x=>x!==i);localStorage.setItem('myday_done_'+dateKey(),JSON.stringify(a));render()};let label=document.createElement('label');label.textContent=t;let del=document.createElement('button');del.textContent='×';del.className='ghost';del.style.padding='3px 10px';del.onclick=()=>{data.tasks.splice(i,1);save();render()};div.append(cb,label,del);$('tasks').append(div)});
+let logs=todayLog(),total=logs.reduce((s,x)=>s+x.minutes,0),pct=Math.min(100,Math.round(total/data.goal*100));$('todayStudy').textContent=fmt(total);$('taskCount').textContent=done.length+'/'+data.tasks.length;$('sessionCount').textContent=logs.length;$('goalPercent').textContent=pct+'%';$('goalLabel').textContent=data.goal+' min target';$('goalInput').value=data.goal;$('goalBar').style.width=pct+'%';$('progressText').textContent=total+' of '+data.goal+' minutes completed';$('studyRows').innerHTML='';logs.slice().reverse().forEach(x=>{let tr=document.createElement('tr');[x.time,x.subject,fmt(x.minutes)].forEach(v=>{let td=document.createElement('td');td.textContent=v;tr.append(td)});$('studyRows').append(tr)});$('emptyLog').classList.toggle('hidden',logs.length>0);renderDiary()}
+function addTask(){let v=$('newTask').value.trim();if(!v)return;data.tasks.push(v);save();$('newTask').value='';render()}
+function addStudy(subject,minutes){let s=(subject??$('subject').value).trim(),m=Number(minutes??$('minutes').value);if(!s||!Number.isFinite(m)||m<1||m>600){alert('Enter a subject and a duration from 1 to 600 minutes.');return}todayLog().push({subject:s,minutes:m,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});save();$('subject').value='';$('minutes').value='';render()}
+function saveGoal(){let n=Number($('goalInput').value);if(n<15||n>1000){alert('Choose a target between 15 and 1000 minutes.');return}data.goal=n;save();render()}
+function clearToday(){if(confirm('Delete today’s study log?')){data.logs[dateKey()]=[];save();render()}}
+function changePassword(){let old=prompt('Enter current password:');if(old!==localStorage.getItem('myday_v2_password')){alert('Password did not match.');return}let n=prompt('Enter new password (at least 4 characters):');if(!n||n.length<4){alert('Password must contain at least 4 characters.');return}localStorage.setItem('myday_v2_password',n);alert('Password changed in this browser.')}
+function renderScenes(){let g=$('sceneGrid');g.innerHTML='';scenes.forEach((s,i)=>{let b=document.createElement('button');b.className='scene'+(data.scene===i?' active':'');b.onclick=()=>{data.scene=i;data.customWallpaper='';save();applyWallpaper();renderScenes()};let im=document.createElement('img');im.src=s.url;im.alt=s.name;im.loading='lazy';let sp=document.createElement('span');sp.textContent=s.name;b.append(im,sp);g.append(b)})}
+function applyWallpaper(){let url=data.customWallpaper||scenes[data.scene||0].url;$('hero').style.setProperty('--hero-image',`url("${url}")`);$('timerbox').style.setProperty('--timer-image',`url("${url}")`)}
+function uploadWallpaper(e){let f=e.target.files&&e.target.files[0];if(!f)return;if(!f.type.startsWith('image/')){alert('Please choose an image file.');return}if(f.size>3*1024*1024){alert('Please choose an image smaller than 3 MB.');return}let r=new FileReader();r.onload=()=>{data.customWallpaper=r.result;save();applyWallpaper();document.querySelectorAll('.scene').forEach(x=>x.classList.remove('active'));alert('Your photo is now set as the dashboard and timer wallpaper.')};r.readAsDataURL(f)}
+function resetWallpaper(){data.customWallpaper='';data.scene=0;save();applyWallpaper();renderScenes()}
+function saveDiary(){let date=$('diaryDate').value||dateKey(),highlight=$('diaryHighlight').value.trim(),notes=$('diaryNotes').value.trim(),mood=$('diaryMood').value;if(!highlight&&!notes){alert('Write a highlight or a note before saving.');return}data.diary[date]={mood,highlight,notes,updated:new Date().toLocaleString()};save();renderDiary();alert('Diary entry saved.')}
+function renderDiary(){let entries=Object.entries(data.diary).sort((a,b)=>b[0].localeCompare(a[0]));$('diaryCount').textContent=entries.length+' entries';$('diaryEntries').innerHTML='';if(!entries.length){$('diaryEntries').innerHTML='<p class="sub">Your diary entries will be listed here.</p>';return}entries.slice(0,8).forEach(([date,x])=>{let d=document.createElement('div');d.className='diary-entry';let h=document.createElement('strong');h.textContent=date+' · '+x.mood;let p=document.createElement('p');p.className='sub';p.textContent=(x.highlight?x.highlight+' — ':'')+x.notes;let b=document.createElement('button');b.className='ghost';b.textContent='Edit';b.style.padding='5px 9px';b.onclick=()=>{$('diaryDate').value=date;$('diaryMood').value=x.mood;$('diaryHighlight').value=x.highlight;$('diaryNotes').value=x.notes;$('diaryPanel').scrollIntoView({behavior:'smooth'})};d.append(h,p,b);$('diaryEntries').append(d)})}
+function clearDiaryForm(){$('diaryDate').value=dateKey();$('diaryHighlight').value='';$('diaryNotes').value='';$('diaryMood').selectedIndex=0}
+let remaining=1500,initial=1500,interval=null;
+function showClock(){$('clock').textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0')}
+function changeMode(){pauseTimer();initial=Number($('timerMode').value)*60;remaining=initial;$('timerStatus').textContent='Ready when you are';showClock()}
+function startTimer(){if(interval)return;$('timerStatus').textContent='Focus session in progress';interval=setInterval(()=>{remaining--;showClock();if(remaining<=0){pauseTimer();$('timerStatus').textContent='Session complete — well done!';if(Number($('timerMode').value)>=25)addStudy('Pomodoro focus',Number($('timerMode').value));alert('Timer complete! Take a short break.')}},1000)}
+function pauseTimer(){if(interval){clearInterval(interval);interval=null}$('timerStatus').textContent='Paused'}
+function resetTimer(){pauseTimer();remaining=initial;$('timerStatus').textContent='Ready when you are';showClock()}
+$('diaryDate').value=dateKey();initLogin();showClock();
+</script>
+</body></html>
